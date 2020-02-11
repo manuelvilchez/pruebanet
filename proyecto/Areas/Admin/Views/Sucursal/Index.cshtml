@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    <a href="~/admin/sucursal/crud" class="btn btn-app btn-info btn-xs">
+        <i class="ace-icon fa fa-folder-open-o bigger-110"></i>
+    </a>
+
+    <a href="~/admin/sucursal/index" class="btn btn-app btn-success btn-xs">
+        <i class="ace-icon fa fa-exchange bigger-110"></i>
+    </a>
+</div>
+
+<div id="listsucursal" class="well"></div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#listsucursal").anexGrid({
+            columnas: [
+             
+                { leyenda: 'CODIGO', columna: 'codigosuc', style: 'width:10px;', ordenable: true },
+                   { leyenda: 'SUCURSAL', columna: 'nmsucursal', ordenable: true },
+                { leyenda: 'TIPE', columna: 'otroscu', style: 'width:10px;', ordenable: true },
+                { leyenda: 'ESTADO', columna: 'estadosuc', style: 'width:140px;', ordenable: true },
+                { style: 'width:10px;' },
+                { style: 'width:10px;' }
+            ],
+
+            modelo: [
+                {
+                    propiedad: 'codigosuc', formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/sucursal/crud/")' + obj.idsucursal,
+                            contenido: valor
+                        });
+                    }
+                 },
+
+              
+                     { propiedad: 'nmsucursal' },
+             
+                   { propiedad: 'otroscu' },
+ 
+
+                 {
+
+                     propiedad: 'estadosuc', formato: function (tr, obj, valor) {
+                         return valor == 1 ? "Activo"  : "No Activo";
+                         //return anexGrid_link({ href:  })
+                     }
+
+                 },
+
+
+
+
+                // BOTONES
+                {
+                    formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/sucursal/crud/")' + obj.idsucursal,
+                            contenido: 'Visualizar',
+                            class: 'btn btn-default btn-xs'
+                        });
+                    },
+                },
+                {
+                    formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/sucursal/eliminar/")' + obj.idsucursal,
+                            contenido: 'Eliminar',
+                            class: 'btn btn-danger btn-xs',
+                            attr: [
+                                'onclick="return confirm(\'¿Esta seguro de eliminar este registro?\')"'
+                            ]
+                        });
+                    },
+                }
+            ],
+
+            url: '@Url.Content("~/admin/sucursal/CargarSucursal")',
+            paginable: true,
+            limite: [20, 60, 100],
+            columna: 'id',
+            columna_orden: 'DESC'
+        });
+    })
+</script>
+
+

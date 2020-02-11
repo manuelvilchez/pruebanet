@@ -1,0 +1,31 @@
+﻿@model  Model.Orden
+
+
+@{
+    Model.Usuario usuario = new Model.Usuario().ObtenerPerfil(Helper.SessionHelper.GetUser());
+    ViewBag.Title = "Inicio";
+
+
+}
+
+
+<div class="well">
+
+
+    <div class="row">
+            <div class="col-md-6">
+
+                <div class="contacts-list-msg">
+
+                    Hola @usuario.nombre, <br />
+                  
+                    <span>Bienvenido a nuestra plataforma de alquiler de equipos.</span>
+                </div>
+
+            </div>
+
+    </div>
+
+  
+
+</div>

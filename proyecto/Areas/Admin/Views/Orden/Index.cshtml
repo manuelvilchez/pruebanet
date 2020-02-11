@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    <a href="~/admin/orden/crud" class="btn btn-app btn-info btn-xs">
+        <i class="ace-icon fa fa-folder-open-o bigger-110"></i>
+    </a>
+ 
+        <a href="~/admin/orden/index" class="btn btn-app btn-success btn-xs">
+            <i class="ace-icon fa fa-exchange bigger-110"></i>
+        </a>
+</div>
+
+
+            <div id="listorden" class="widget-box widget-color-dark">
+
+
+            </div>
+
+    
+  
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#listorden").anexGrid({
+            columnas: [
+                 { leyenda: 'ORDEN', columna: 'codigoorden', ordenable: true },
+                { leyenda: 'EMPRESA', columna: 'empresaorden', ordenable: true },
+                { leyenda: 'CLIENTE', columna: 'clienteorden', style: 'width:10px;', ordenable: true },
+                { leyenda: 'OS', columna: 'ordenservicio', style: 'width:140px;', ordenable: true },
+                { leyenda: 'PRODUCCION', columna: 'produccion', style: 'width:140px;', ordenable: true },
+                  { leyenda: 'ESTADO', columna: 'estadoorden', style: 'width:140px;', ordenable: true },
+                { style: 'width:10px;' },
+                { style: 'width:10px;' }
+            ],
+
+            modelo: [
+
+                {
+                    propiedad: 'codigoorden', formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/orden/crud/")' + obj.idorden,
+                            contenido: valor
+                        });
+                    }
+                },
+
+                {
+                    propiedad: 'empresaorden', formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/orden/crud/")' + obj.idorden,
+                            contenido: valor
+                        });
+                    }
+                },
+
+
+
+
+               { propiedad: 'clienteorden' },
+
+
+                { propiedad: 'ordenservicio' },
+                { propiedad: 'produccion' },
+
+                   { propiedad: 'estadoorden' },
+
+
+
+
+                // BOTONES
+                {
+                    formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/orden/ViewDetailorden/")' + obj.idorden,
+                            contenido: 'DETALLE',
+                            class: 'btn btn-success btn-xs'
+                        });
+                    },
+                },
+
+                 {
+                     formato: function (tr, obj, valor) {
+                         return anexGrid_link({
+                             href: '@Url.Content("~/admin/orden/formatos?idorden=")' + obj.idorden,
+                             contenido: 'ORDEN',
+                             class: 'btn btn-primary btn-xs'
+                         });
+                     },
+                 },
+
+                 {
+                     formato: function (tr, obj, valor) {
+                         return anexGrid_link({
+                             href: '@Url.Content("~/admin/orden/gremission?idorden=")' + obj.idorden,
+                             contenido: 'G. REM',
+                             class: 'btn btn-primary btn-xs'
+                         });
+                     },
+                 },
+
+                {
+                    formato: function (tr, obj, valor) {
+                        return anexGrid_link({
+                            href: '@Url.Content("~/admin/orden/eliminar/")' + obj.idorden,
+                            contenido: 'Eliminar',
+                            class: 'btn btn-danger btn-xs',
+                            attr: [
+                                'onclick="return confirm(\'¿Esta seguro de eliminar este registro?\')"'
+                            ]
+                        });
+                    },
+                }
+            ],
+
+            url: '@Url.Content("~/admin/orden/CargarOrden")',
+            paginable: true,
+            limite: [20, 60, 100],
+            columna: 'idorden',
+            columna_orden: 'DESC'
+        });
+    })
+</script>
+
