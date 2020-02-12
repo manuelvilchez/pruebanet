@@ -80,8 +80,14 @@
             let myArrClean_telefono = array_telefono.filter(Boolean) //quito el ultimo elemento si es vacio
 
             let usuario = "";
-            array_usuarios.forEach(element=>usuario += '<option value="' + element + '">' + element + '</option>')
+            myArrClean_usuario.forEach(element=>usuario += '<option value="' + element + '">' + element + '</option>')
             $("#combo_usuarios").html(usuario);
+
+
+            let telefonos = "";
+            myArrClean_telefono.forEach(element=>telefonos += '<option value="' + element + '">' + element + '</option>')
+            $("#combo_telefono").html(telefonos);
+            
            // let quitar_ultimo = array.pop();
             console.log(array);
            // console.log(myArrClean);
@@ -231,14 +237,11 @@
 
 
                
-
                 @Html.LabelFor(x => x.telefonof, new { @class = "col-sm-1 control-label pull-left" })
                 <div class="col-md-2">
-
-                    @Html.TextBoxFor(x => x.telefonof, new { @class = "input-12" })
-                    @Html.ValidationMessageFor(x => x.telefonof, null, new { @class = "label label-danger" })
+                    <select class="collapsed-box input-12" name="telefonof" id="combo_telefono"></select>
                 </div>
-
+               
            
             </div>
             
