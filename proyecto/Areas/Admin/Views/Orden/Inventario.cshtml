@@ -65,6 +65,7 @@
             });
         });
 
+        var array_tel = "";
 
         $.getJSON('/orden/getUsuarioFinal/' + $("#Orden_Id").val(), function (data) {
             //PRODUCCION
@@ -75,23 +76,38 @@
 
             let array_usuarios = usuarios.split("-")
             let myArrClean_usuario = array_usuarios.filter(Boolean) //quito el ultimo elemento si es vacio
-
+            
             let array_telefono = telefono.split("-")
-            let myArrClean_telefono = array_telefono.filter(Boolean) //quito el ultimo elemento si es vacio
-
+            var myArrClean_telefono = array_telefono.filter(Boolean) //quito el ultimo elemento si es vacio
+            array_tel = myArrClean_telefono;
             let usuario = "";
-            myArrClean_usuario.forEach(element=>usuario += '<option value="' + element + '">' + element + '</option>')
+            let  i=0
+            myArrClean_usuario.forEach(
+               element=>usuario += '<option class="clickaqui" data-orden="' + i++ + '" value="' + element + '">' + element + '</option>'              )
             $("#combo_usuarios").html(usuario);
 
 
-            let telefonos = "";
-            myArrClean_telefono.forEach(element=>telefonos += '<option value="' + element + '">' + element + '</option>')
-            $("#combo_telefono").html(telefonos);
+           
             
            // let quitar_ultimo = array.pop();
-            console.log(array);
+            console.log(myArrClean_telefono);
            // console.log(myArrClean);
-            });
+        });
+
+        $("#combo_usuarios").on('click', function (e) {
+            console.log(array_tel);
+            console.log(e.target)
+            const opcion = e.target.classList.contains('clickaqui');
+            if (opcion) {
+                let index = e.target.dataset.orden
+
+                $("#telefono_usuario").val(array_tel[index])
+                console.log(array_tel[index])
+
+            }
+        })
+
+       
     });
 
 </script>
@@ -239,8 +255,10 @@
                
                 @Html.LabelFor(x => x.telefonof, new { @class = "col-sm-1 control-label pull-left" })
                 <div class="col-md-2">
-                    <select class="collapsed-box input-12" name="telefonof" id="combo_telefono"></select>
+                    @Html.TextBoxFor(x => x.telefonof, new { @class = "input-12" , id="telefono_usuario"})
+                    @Html.ValidationMessageFor(x => x.telefonof, null, new { @class = "label label-danger" })
                 </div>
+               
                
            
             </div>
@@ -258,7 +276,7 @@
             @Html.LabelFor(x => x.ubicacion, new { @class = "col-sm-2 control-label pull-left" })
             <div class="col-md-3">
 
-                @Html.TextBoxFor(x => x.ubicacion, new { @class = "input-12" })
+                @Html.TextBoxFor(x => x.ubicacion, new { @class = "input-12" , id="aquii"})
                 @Html.ValidationMessageFor(x => x.ubicacion, null, new { @class = "label label-danger" })
             </div>
 
