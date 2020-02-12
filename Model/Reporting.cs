@@ -135,7 +135,17 @@ namespace Model
         }
 
 
+        public string equipousuarioorden { get; set; }
 
+        public string telefonousuarioorden { get; set; }
+        //PARA BUSCAR EN VISTA PARCIAL INVENTARIO LOS USUARIOS FINALES DEL EQUIPO POR EL ORDEN ID.
+        public virtual List<Reporting> Get_usuario_final_host(int id)
+        {
 
+            
+            var ctx = new ProyectoContext();
+            SqlParameter param1 = new SqlParameter("@idordenuser", id);
+            return ctx.Database.SqlQuery<Reporting>("SP_RPT_BUSCARUSUARIOFINAL @idordenuser", param1).ToList();
+        }
     }
 }

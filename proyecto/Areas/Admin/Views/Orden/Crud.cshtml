@@ -255,7 +255,7 @@
 
 </script>
 
-<script>
+@*<script>
     window.onload = function () {
         var fecha = new Date(); //Fecha actual
         var mes = fecha.getMonth() + 1; //obteniendo mes
@@ -269,7 +269,7 @@
         document.getElementById('fsolicitudorden').value = dia + "/" + mes + "/" + ano;
         document.getElementById('fentregaorden').value = dia + 1 + "/" + mes + "/" + ano;
     }
-</script>
+</script>*@
 
 
 @*
@@ -290,7 +290,7 @@ PARA CARGAR INVENTARIO EN UN VISTA PARCIAL
     function CargarInventario()
     {
 
-        $("#inventario").load('@Url.Content("~/admin/orden/inventario/?Orden_id=" + Model.idorden + "&datos=" + Model.equipousuarioorden)');
+        $("#inventario").load('@Url.Content("~/admin/orden/inventario/?Orden_id=" + Model.idorden)');
     }
 
 </script>

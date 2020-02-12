@@ -6,6 +6,7 @@ using System.Linq;
 using System.Data.Sql;
 using System.Collections.Generic;
 using System;
+using System.Data.SqlClient;
 
 namespace proyecto.Areas.Admin.Controllers
 {
@@ -21,6 +22,8 @@ namespace proyecto.Areas.Admin.Controllers
         private Hardware inventario = new Hardware();
 
         private HardwareInfo hwdetail = new HardwareInfo();
+
+        private Reporting mireporte = new Reporting();
 
 
         // GET: Admin/Empresa
@@ -227,6 +230,19 @@ namespace proyecto.Areas.Admin.Controllers
             }
 
             return Json(rm);
+        }
+
+        public JsonResult getUsuarioFinal(int id )
+        {
+
+          //  var miid = detalleorden.Orden_Id;
+           
+            var kl = mireporte.Get_usuario_final_host(id);
+
+           // var kl = id;
+
+            return Json(kl, JsonRequestBehavior.AllowGet);
+
         }
 
 

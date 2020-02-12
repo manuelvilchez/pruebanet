@@ -1,4 +1,6 @@
-﻿@model Model.DetalleOrden
+﻿
+
+@model Model.DetalleOrden
 
 @{
     List<Model.Hardware> miinventario = ViewBag.Inventarios;
@@ -7,6 +9,9 @@
 
 <script>
     $(document).ready(function () {
+
+        
+
         $("#hardwareselect").change(function () {
             $("#busquedahw").empty();
             //DESARROLLO
@@ -59,6 +64,28 @@
                 });
             });
         });
+
+
+        $.getJSON('/orden/getUsuarioFinal/' + $("#Orden_Id").val(), function (data) {
+            //PRODUCCION
+            // console.log('holas')
+            //    $.getJSON('../default/GetRPT_Hardware_produccion', function (data) {
+            let usuarios = data[0]['equipousuarioorden'];
+            let telefono = data[0]['telefonousuarioorden'];
+
+            let array_usuarios = usuarios.split("-")
+            let myArrClean_usuario = array_usuarios.filter(Boolean) //quito el ultimo elemento si es vacio
+
+            let array_telefono = telefono.split("-")
+            let myArrClean_telefono = array_telefono.filter(Boolean) //quito el ultimo elemento si es vacio
+
+            let usuario = "";
+            array_usuarios.forEach(element=>usuario += '<option value="' + element + '">' + element + '</option>')
+            $("#combo_usuarios").html(usuario);
+           // let quitar_ultimo = array.pop();
+            console.log(array);
+           // console.log(myArrClean);
+            });
     });
 
 </script>
@@ -68,24 +95,59 @@
 
 
 <script>
-    window.onload = function () {
-        var fecha = new Date(); //Fecha actual
-        var mes = fecha.getMonth() + 1; //obteniendo mes
-        var dia = fecha.getDate(); //obteniendo dia
-        var ano = fecha.getFullYear(); //obteniendo año
-        if (dia < 10)
-            dia = '0' + dia; //agrega cero si el menor de 10
-        if (mes < 10)
-            mes = '0' + mes //agrega cero si el menor de 10
+    //window.onload = function () {
+    //    var fecha = new Date(); //Fecha actual
+    //    var mes = fecha.getMonth() + 1; //obteniendo mes
+    //    var dia = fecha.getDate(); //obteniendo dia
+    //    var ano = fecha.getFullYear(); //obteniendo año
+    //    if (dia < 10)
+    //        dia = '0' + dia; //agrega cero si el menor de 10
+    //    if (mes < 10)
+    //        mes = '0' + mes //agrega cero si el menor de 10
 
-        document.getElementById('fregistro').value = dia + "/" + mes + "/" + ano;      
-    }
+    //    document.getElementById('fregistro').value = dia + "/" + mes + "/" + ano;      
+    //}
 
 
-    var params = new URLSearchParams(location.search);
-    var dato = params.get('datos');
-    document.getElementById('nuevo_datos').value =dato
+ 
 </script>
+
+
+
+<script>
+
+
+    //window.onload = function () {
+    //    //  var showData = $('#show-data');
+    //   console.log('hola')
+    //    let id_mi_orden = 16;
+
+    //  //  $.getJSON('/orden/getUsuarioFinal', { idorden: $('#Orden_Id').val() }, function (data) {
+    //    //DESARROLLO
+    //    $.getJSON('/orden/getUsuarioFinal' + $("#Orden_Id").val(), function (data) {
+    //        //PRODUCCION
+    //    //    $.getJSON('../default/GetRPT_Hardware_produccion', function (data) {
+    //        console.log(data);
+    //        /*$.each(data, function () {
+
+    //            var stringified = JSON.stringify(data);
+    //            var detail = JSON.parse(stringified);
+
+    //            console.log(detail);
+
+    //            for (var i = 0; i < detail.length; i++) {
+
+    //                console.log(detail[i]);
+
+    //            }
+
+    //        });*/
+
+    //    });
+    //}
+
+</script>
+
 
 
 @if (miinventario.Count > 0)
@@ -93,14 +155,6 @@
     using (Html.BeginForm("GuardarInventario", "Orden", FormMethod.Post, new { id = "frm-inventario" }))
     {
         @Html.HiddenFor(x => x.Orden_Id)
-        @Html.HiddenFor(y => y.datos)
-
-
-
-
-
-
-
 
         <div class="panel panel-primary">
             <div class="panel-body">
@@ -156,9 +210,9 @@
 
            
 
-                      @Html.TextBoxFor(x => x.fregistro, new { @class = "input-12 datepicker", @type = "hidden" })
-
-
+                    @Html.TextBoxFor(x => x.fregistro, new { @class = "input-12 datepicker", @type = "hidden" })
+                
+                    
             <div class="form-group">
 
                 @Html.LabelFor(x => x.seriedt, new { @class = "col-sm-2 control-label pull-left" })
@@ -168,11 +222,15 @@
                 </div>
 
                 @Html.LabelFor(x => x.usuariof, new { @class = "col-sm-1 control-label pull-left" })
-                <div class="col-md-3">
-
-                    @Html.TextBoxFor(x => x.usuariof, new { @class = "input-12" , placeholder="aqui va el usuaio"})
-                    @Html.ValidationMessageFor(x => x.usuariof, null, new { @class = "label label-danger" })
+                <div class="col-md-4">                  
+                    <select class="collapsed-box input-12" name="usuariof" id="combo_usuarios">
+                        
+                    </select>
                 </div>
+
+
+
+               
 
                 @Html.LabelFor(x => x.telefonof, new { @class = "col-sm-1 control-label pull-left" })
                 <div class="col-md-2">
@@ -181,9 +239,7 @@
                     @Html.ValidationMessageFor(x => x.telefonof, null, new { @class = "label label-danger" })
                 </div>
 
-                <div class="col-md-12">
-                    <input id="nuevo_datos" type="type" name="name" class="input-12" placeholder="hola" />
-                </div>
+           
             </div>
             
 
